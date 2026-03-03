@@ -415,3 +415,41 @@ export const updateProfile = async (req, res) => {
     });
   }
 };
+
+export const uploadAvatar = async (req, res) => {
+  try {
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({
+        message: "No image file uploaded.",
+        success: false,
+      });
+    }
+    const imageUrl = req.file.path;
+    res.json({ success: true, imageUrl });
+  } catch (error) {
+    console.error("Upload Avatar Error:", error);
+    res.status(500).json({
+      message: "Error uploading avatar.",
+      success: false,
+    });
+  }
+};
+
+export const uploadBanner = async (req, res) => {
+  try {
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({
+        message: "No image file uploaded.",
+        success: false,
+      });
+    }
+    const imageUrl = req.file.path;
+    res.json({ success: true, imageUrl });
+  } catch (error) {
+    console.error("Upload Banner Error:", error);
+    res.status(500).json({
+      message: "Error uploading banner.",
+      success: false,
+    });
+  }
+};

@@ -3,7 +3,7 @@ import { Tweet } from "../models/tweet.model.js";
 
 export const createTweet = async (req, res) => {
   try {
-    const { description, id } = req.body;
+    const { description, id, images } = req.body;
 
     if (!description || !id) {
       return res.status(400).json({
@@ -25,6 +25,7 @@ export const createTweet = async (req, res) => {
     await Tweet.create({
       description,
       userId: id,
+      images: images || [],
     });
 
     return res.status(201).json({
@@ -193,5 +194,20 @@ export const getTweetById = async (req, res) => {
       message: "Error in fetching tweet.",
       success: false,
     });
+  }
+};
+
+export const uploadTweetImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({ message: "No file uploaded", success: false });
+    }
+    const imageUrl = req.file.path;
+    res.json({ success: true, imageUrl });
+  } catch (error) {
+    console.error("CLOUDINARY ERROR:", error); // Add this!
+    res.status(500).json({ message: "Upload failed", error: error.message });
   }
 };

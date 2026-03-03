@@ -1,11 +1,16 @@
 import mongoose from "mongoose";
-// Defines tweet structure
+
 const tweetSchema = new mongoose.Schema(
   {
     description: {
       type: String,
       required: true,
     },
+    images: [
+      {
+        type: String,
+      },
+    ],
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -46,7 +51,7 @@ const tweetSchema = new mongoose.Schema(
     ],
   },
 
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Tweet = mongoose.model("Tweet", tweetSchema);
