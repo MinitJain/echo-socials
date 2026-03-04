@@ -6,10 +6,10 @@ import {
   getFollowingTweets,
   getTweetById,
   likeorDislikeTweet,
-  uploadTweetImage,
+  uploadTweetImages,
 } from "../controllers/tweet.controller.js";
 import isAuthenticated from "../config/auth.js";
-import { upload } from "../config/cloudinary.js";
+import { uploadTweetImages as upload } from "../config/cloudinary.js";
 
 const router = express.Router();
 
@@ -20,10 +20,10 @@ router.get("/allTweets", getAllTweets);
 router.get("/followingtweets/:id", isAuthenticated, getFollowingTweets);
 router.get("/tweet/:id", isAuthenticated, getTweetById);
 router.post(
-  "/upload-image",
+  "/upload-images",
   isAuthenticated,
-  upload.single("image"),
-  uploadTweetImage,
+  upload.array("images", 4),
+  uploadTweetImages,
 );
 
 export default router;

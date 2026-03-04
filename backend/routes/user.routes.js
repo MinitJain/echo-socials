@@ -10,11 +10,11 @@ import {
   Register,
   unfollow,
   updateProfile,
-  uploadAvatar,
-  uploadBanner,
+  uploadAvatar as uploadAvatarController,
+  uploadBanner as uploadBannerController,
 } from "../controllers/user.controller.js";
 import isAuthenticated from "../config/auth.js";
-import { upload } from "../config/cloudinary.js";
+import { uploadAvatar, uploadBanner } from "../config/cloudinary.js";
 
 const router = express.Router();
 
@@ -31,14 +31,14 @@ router.post("/unfollow/:id", isAuthenticated, unfollow);
 router.post(
   "/upload-avatar",
   isAuthenticated,
-  upload.single("image"),
-  uploadAvatar,
+  uploadAvatar.single("image"),
+  uploadAvatarController,
 );
 router.post(
   "/upload-banner",
   isAuthenticated,
-  upload.single("image"),
-  uploadBanner,
+  uploadBanner.single("image"),
+  uploadBannerController,
 );
 
 export default router;

@@ -153,7 +153,7 @@ export const logout = async (req, res) => {
 
 export const bookmark = async (req, res) => {
   try {
-    const loggedInUserId = req.user;
+    const loggedInUserId = req.id;
     const tweetId = req.params.id;
 
     // Step 1: Try to remove the tweetId from the bookmarks array
@@ -205,7 +205,7 @@ export const GetUserProfile = async (req, res) => {
 };
 export const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user).select("-password").lean();
+    const user = await User.findById(req.id).select("-password").lean();
 
     if (!user) {
       return res.status(404).json({
@@ -229,7 +229,7 @@ export const getMe = async (req, res) => {
 
 export const getOtherUserProfile = async (req, res) => {
   try {
-    const loggedInUserId = req.user;
+    const loggedInUserId = req.id;
 
     const otherUsers = await User.find({
       _id: { $ne: loggedInUserId },
@@ -255,7 +255,7 @@ export const getOtherUserProfile = async (req, res) => {
 
 export const follow = async (req, res) => {
   try {
-    const loggedInUserId = req.user;
+    const loggedInUserId = req.id;
     const userIdToFollow = req.params.id;
 
     if (loggedInUserId === userIdToFollow) {
@@ -295,7 +295,7 @@ export const follow = async (req, res) => {
 };
 export const unfollow = async (req, res) => {
   try {
-    const loggedInUserId = req.user;
+    const loggedInUserId = req.id;
     const userIdToUnfollow = req.params.id;
 
     // Parallel atomic removal
@@ -327,7 +327,7 @@ export const updateProfile = async (req, res) => {
   try {
     const userId = req.params.id;
     const { name, username, bio, profileImageUrl, bannerUrl } = req.body;
-    const loggedInUserId = req.user; // req.user is already the user ID from auth middleware
+    const loggedInUserId = req.id; // req.id is already the user ID from auth middleware
 
     // Check if user is trying to update their own profile
     if (userId !== loggedInUserId) {

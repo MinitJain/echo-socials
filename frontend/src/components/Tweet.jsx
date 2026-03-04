@@ -18,6 +18,24 @@ const Tweet = ({ tweet, readOnly = false }) => {
 
   const tweetUser = tweet?.userId;
 
+  const getImageGridClasses = (count) => {
+    switch (count) {
+      case 1:
+        return "grid-cols-1";
+      case 2:
+        return "grid-cols-2";
+      case 3:
+        return "grid-cols-2";
+      case 4:
+        return "grid-cols-2";
+      default:
+        return "grid-cols-2";
+    }
+  };
+
+  const imageCount = tweet.images?.length || 0;
+  const gridClasses = getImageGridClasses(imageCount);
+
   const likeOrDislikeHandler = async (id) => {
     try {
       const alreadyLiked = likes.includes(user?._id);
@@ -76,6 +94,46 @@ const Tweet = ({ tweet, readOnly = false }) => {
         dark:border-zinc-800 dark:bg-zinc-900/95
         "
       >
+        {tweet.images?.length > 0 && (
+          <div className="px-4 pt-4 sm:px-5">
+            {imageCount === 3 ? (
+              <div className="grid grid-cols-2 gap-2">
+                <div className="row-span-2">
+                  <img
+                    src={tweet.images[0]}
+                    alt="Tweet Image 1"
+                    className="w-full h-[200px] object-cover rounded-lg"
+                  />
+                </div>
+                <div>
+                  <img
+                    src={tweet.images[1]}
+                    alt="Tweet Image 2"
+                    className="w-full h-[98px] object-cover rounded-lg"
+                  />
+                </div>
+                <div>
+                  <img
+                    src={tweet.images[2]}
+                    alt="Tweet Image 3"
+                    className="w-full h-[98px] object-cover rounded-lg"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className={`grid ${gridClasses} gap-2`}>
+                {tweet.images.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt={`Tweet Image ${index + 1}`}
+                    className={`object-cover rounded-lg ${imageCount === 1 ? "w-full h-64" : "w-full h-40"}`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         <div className="flex gap-3 px-4 py-4 sm:px-5 sm:py-4">
           {/* Avatar */}
           <Link to={`/profile/${tweetUser?._id}`}>
@@ -119,79 +177,81 @@ const Tweet = ({ tweet, readOnly = false }) => {
 
             {/* Actions */}
             {!readOnly && (
-            <div className="flex items-center gap-5 pt-1.5">
-              {/* Like */}
-              <button
-                onClick={() => likeOrDislikeHandler(tweet?._id)}
-                className="
+              <div className="flex items-center gap-5 pt-1.5">
+                {/* Like */}
+                <button
+                  onClick={() => likeOrDislikeHandler(tweet?._id)}
+                  className="
                 flex items-center gap-1.5 rounded-full px-3 py-1.5
                 transition-all duration-150 ease-out
                 hover:bg-red-50 dark:hover:bg-red-500/10
                 active:scale-95
                 "
-              >
-                {likes.includes(user?._id) ? (
-                  <RiHeart3Fill size={18} className="text-red-500" />
-                ) : (
-                  <RiHeart3Line size={18} className="text-zinc-500" />
-                )}
-                <span
-                  className={`text-xs ${
-                    likes.includes(user?._id) ? "text-red-500" : "text-zinc-500"
-                  }`}
                 >
-                  {likes.length}
-                </span>
-              </button>
+                  {likes.includes(user?._id) ? (
+                    <RiHeart3Fill size={18} className="text-red-500" />
+                  ) : (
+                    <RiHeart3Line size={18} className="text-zinc-500" />
+                  )}
+                  <span
+                    className={`text-xs ${
+                      likes.includes(user?._id)
+                        ? "text-red-500"
+                        : "text-zinc-500"
+                    }`}
+                  >
+                    {likes.length}
+                  </span>
+                </button>
 
-              {/* Bookmark */}
-              <button
-                onClick={() => bookmarkHandler(tweet?._id)}
-                className="
+                {/* Bookmark */}
+                <button
+                  onClick={() => bookmarkHandler(tweet?._id)}
+                  className="
                 flex items-center gap-1.5 rounded-full px-3 py-1.5
                 transition-all duration-150 ease-out
                 hover:bg-indigo-50 dark:hover:bg-indigo-500/10
                 active:scale-95
                 "
-              >
-                <RiBookmarkLine
-                  size={18}
-                  className={
-                    user?.bookmarks?.includes(tweet?._id)
-                      ? "text-blue-500"
-                      : "text-zinc-500"
-                  }
-                />
-                <span
-                  className={`text-xs ${
-                    user?.bookmarks?.includes(tweet?._id)
-                      ? "text-indigo-600"
-                      : "text-zinc-500"
-                  }`}
                 >
-                  {user?.bookmarks?.includes(tweet?._id) ? "Saved" : "Save"}
-                </span>
-              </button>
+                  <RiBookmarkLine
+                    size={18}
+                    className={
+                      user?.bookmarks?.includes(tweet?._id)
+                        ? "text-blue-500"
+                        : "text-zinc-500"
+                    }
+                  />
+                  <span
+                    className={`text-xs ${
+                      user?.bookmarks?.includes(tweet?._id)
+                        ? "text-indigo-600"
+                        : "text-zinc-500"
+                    }`}
+                  >
+                    {user?.bookmarks?.includes(tweet?._id) ? "Saved" : "Save"}
+                  </span>
+                </button>
 
-              {/* Delete */}
-              {user?._id === tweetUser?._id && (
-                <button
-                  onClick={() => {
-                    setTweetToDelete(tweet._id);
-                    setShowDeleteConfirm(true);
-                  }}
-                  className="
+                {/* Delete */}
+                {user?._id === tweetUser?._id && (
+                  <button
+                    onClick={() => {
+                      setTweetToDelete(tweet._id);
+                      setShowDeleteConfirm(true);
+                    }}
+                    className="
                   flex items-center gap-1.5 rounded-full px-3 py-1.5
                   transition-all duration-150 ease-out
                   hover:bg-red-50 dark:hover:bg-red-500/10
                   active:scale-95
                   "
-                >
-                  <MdDeleteOutline size={18} className="text-zinc-500" />
-                  <span className="text-sm text-zinc-500">Delete</span>
-                </button>
-              )}
-            </div>
+                  >
+                    <MdDeleteOutline size={18} className="text-zinc-500" />
+                    <span className="text-sm text-zinc-500">Delete</span>
+                  </button>
+                )}
+              </div>
             )}
           </div>
         </div>

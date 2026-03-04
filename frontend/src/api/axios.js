@@ -24,4 +24,38 @@ const API = axios.create({
   withCredentials: true,
 });
 
+export const uploadAvatarImage = async (file) => {
+  const formData = new FormData();
+  formData.append("image", file);
+  const res = await API.post("/user/upload-avatar", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data.imageUrl;
+};
+
+export const uploadBannerImage = async (file) => {
+  const formData = new FormData();
+  formData.append("image", file);
+  const res = await API.post("/user/upload-banner", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data.imageUrl;
+};
+
+export const uploadTweetImages = async (files) => {
+  const formData = new FormData();
+  files.forEach((file) => formData.append("images", file));
+
+  const res = await API.post("/tweet/upload-images", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data.imageUrls;
+};
+
 export default API;

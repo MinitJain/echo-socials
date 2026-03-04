@@ -44,7 +44,7 @@ export const createTweet = async (req, res) => {
 export const deleteTweet = async (req, res) => {
   try {
     const { id } = req.params;
-    const loggedInUserId = req.user; // From auth middleware
+    const loggedInUserId = req.id; // From auth middleware
 
     const tweet = await Tweet.findById(id);
     if (!tweet) {
@@ -197,17 +197,22 @@ export const getTweetById = async (req, res) => {
   }
 };
 
-export const uploadTweetImage = async (req, res) => {
+export const uploadTweetImages = async (req, res) => {
   try {
-    if (!req.file) {
+    if (!req.files || req.files.length === 0) {
       return res
         .status(400)
-        .json({ message: "No file uploaded", success: false });
+        .json({ message: "No files uploaded", success: false });
     }
-    const imageUrl = req.file.path;
-    res.json({ success: true, imageUrl });
+    if (req.files.length > 4) {
+      return res
+        .status(400)
+        .json({ message: "Max 4 images allowed", success: false });
+    }
+    const imageUrls = req.files.map((file) => file.path);
+    res.json({ success: true, imageUrls });
   } catch (error) {
-    console.error("CLOUDINARY ERROR:", error); // Add this!
-    res.status(500).json({ message: "Upload failed", error: error.message });
+    console.error("Upload Tweet Images Error:", error);
+    res.status(500).json({ message: "Upload failed", success: false });
   }
 };
