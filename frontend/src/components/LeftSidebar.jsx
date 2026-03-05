@@ -14,7 +14,7 @@ import API from "../api/axios";
 import { setUser, getOtherUsers, getMyProfile } from "../redux/userSlice";
 import { toast } from "react-hot-toast";
 
-const SidebarItem = ({ to, icon: Icon, label, onClick }) => {
+const SidebarItem = ({ to, icon: Icon, label, onClick }) => { // eslint-disable-line no-unused-vars
   if (to) {
     return (
       <NavLink
@@ -74,7 +74,7 @@ const LeftSidebar = ({ isAIChatOpen, setIsAIChatOpen }) => {
       await API.get("/user/logout");
 
       toast.success("Logged out");
-      navigate("/login", { replace: true });
+      navigate("/login");
     } catch {
       toast.error("Logout failed");
     }

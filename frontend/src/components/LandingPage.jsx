@@ -82,7 +82,7 @@ const LandingPage = () => {
             onClick={() => navigate("/login?mode=signup")}
             className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
           >
-            Sign Up
+            Join Echo
           </button>
         </div>
       </nav>
@@ -93,22 +93,82 @@ const LandingPage = () => {
             Your voice, amplified.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-            Echo is a modern microblogging platform powered by AI. Share ideas, connect with others, and discover what matters.
+            Zero friction. No walls. Just ideas.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <button
-              onClick={() => navigate("/login?mode=signup")}
-              className="w-full rounded-full bg-blue-600 px-8 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-blue-500 hover:shadow-xl active:scale-95 sm:w-auto"
-            >
-              Get Started
-            </button>
-            <button
               onClick={() => navigate("/explore")}
-              className="w-full rounded-full border border-zinc-300 bg-white px-8 py-3 text-base font-medium text-zinc-700 shadow-sm transition-all hover:bg-zinc-50 hover:shadow-md active:scale-95 sm:w-auto dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="w-full rounded-full bg-blue-600 px-8 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-blue-500 hover:shadow-xl active:scale-95 sm:w-auto"
             >
               Explore Feed
             </button>
+            <button
+              onClick={() => navigate("/login?mode=signup")}
+              className="w-full rounded-full border border-zinc-300 bg-white px-8 py-3 text-base font-medium text-zinc-700 shadow-sm transition-all hover:bg-zinc-50 hover:shadow-md active:scale-95 sm:w-auto dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            >
+              Join Echo
+            </button>
           </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden py-8">
+        <div className="absolute inset-y-0 left-0 w-12 z-10 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-950"></div>
+        <div className="absolute inset-y-0 right-0 w-12 z-10 bg-gradient-to-l from-zinc-50 to-transparent dark:from-zinc-950"></div>
+        
+        <div className="flex overflow-x-hidden">
+          <div className="flex animate-marquee gap-4">
+            {[...sampleTweets, ...sampleTweets].map((tweet, index) => (
+              <div
+                key={`${tweet._id}-${index}`}
+                className="w-80 flex-shrink-0 rounded-xl border border-zinc-200/50 bg-white/70 backdrop-blur-md p-4 shadow-lg dark:border-zinc-800/50 dark:bg-zinc-900/70"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0">
+                    {tweet.userId.profileImageUrl ? (
+                      <img
+                        src={tweet.userId.profileImageUrl}
+                        alt={tweet.userId.name}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <Avatar
+                        name={tweet.userId.name}
+                        size="40"
+                        round
+                      />
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1">
+                      <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 truncate">
+                        {tweet.userId.name}
+                      </h3>
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        @{tweet.userId.username}
+                      </span>
+                    </div>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      {formatTimeAgo(tweet.createdAt)}
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-300 line-clamp-2">
+                  {tweet.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 text-center">
+          <button
+            onClick={() => navigate("/explore")}
+            className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 transition-colors"
+          >
+            See more in Explore
+            <span aria-hidden="true">&rarr;</span>
+          </button>
         </div>
       </section>
 
@@ -123,10 +183,10 @@ const LandingPage = () => {
                 <RiSparkling2Line size={28} />
               </div>
               <h3 className="mb-2 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-                Beautiful Design
+                Instant Access
               </h3>
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                Clean, distraction-free interface designed for focus
+                Don&apos;t wait. Browse the public feed and see what&apos;s trending right now.
               </p>
             </div>
             <div className="text-center">
@@ -219,7 +279,7 @@ const LandingPage = () => {
               onClick={() => navigate("/login?mode=signup")}
               className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
             >
-              Sign Up
+              Join Echo
             </button>
           </div>
           <p className="text-xs text-zinc-500 dark:text-zinc-400">

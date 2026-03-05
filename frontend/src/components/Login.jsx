@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/userSlice.js";
 import useTheme from "../hooks/useTheme";
-import { RiMoonClearLine, RiSunLine } from "react-icons/ri";
+import { RiMoonClearLine, RiSunLine, RiArrowLeftLine } from "react-icons/ri";
 
 const Login = () => {
   const [searchParams] = useSearchParams();
-  const mode = searchParams.get('mode');
-  const [isLogin, setIsLogin] = useState(mode !== 'signup');
+  const mode = searchParams.get("mode");
+  const [isLogin, setIsLogin] = useState(mode !== "signup");
   const { isDark, toggleTheme } = useTheme();
 
   const [formData, setFormData] = useState({
@@ -97,6 +97,13 @@ const Login = () => {
       >
         {isDark ? <RiMoonClearLine size={20} /> : <RiSunLine size={20} />}
       </button>
+      <a
+        href="/"
+        className="fixed top-4 left-4 z-50 flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+      >
+        <RiArrowLeftLine size={18} />
+        Back
+      </a>
 
       <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-zinc-50/90 p-8 shadow-lg dark:border-zinc-800 dark:bg-zinc-950/90 transition-colors">
         <img

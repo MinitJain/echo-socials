@@ -2,25 +2,18 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import Tweet from "./Tweet";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 const Bookmarks = () => {
   const { user } = useSelector((store) => store.user);
   const { tweets } = useSelector((store) => store.tweet);
 
-  const [localBookmarks, setLocalBookmarks] = useState([]);
-  const [initialized, setInitialized] = useState(false);
-
-  useEffect(() => {
-    if (!initialized && tweets?.length && user?.bookmarks) {
-      const initialBookmarks = tweets.filter((tweet) =>
-        user.bookmarks.includes(tweet._id),
-      );
-
-      setLocalBookmarks(initialBookmarks);
-      setInitialized(true);
+  const localBookmarks = useMemo(() => {
+    if (!tweets?.length || !user?.bookmarks) {
+      return [];
     }
-  }, [tweets, user, initialized]);
+    return tweets.filter((tweet) => user.bookmarks.includes(tweet._id));
+  }, [tweets, user]);
 
   return (
     <div className="w-full">

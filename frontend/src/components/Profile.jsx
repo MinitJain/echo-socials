@@ -49,7 +49,7 @@ const Profile = () => {
       await API.get("/user/logout");
 
       toast.success("Logged out");
-      navigate("/login", { replace: true });
+      navigate("/login");
     } catch {
       toast.error("Logout failed");
     }

@@ -23,4 +23,27 @@ body,
   .glass-light {
     @apply bg-white/10 backdrop-blur-md border border-white/20;
   }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  .mask-gradient-left {
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  }
+
+  .mask-gradient-right {
+    mask-image: linear-gradient(to left, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, black 80%, transparent 100%);
+  }
 }

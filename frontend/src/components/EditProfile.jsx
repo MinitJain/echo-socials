@@ -166,13 +166,6 @@ const EditProfile = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleImageUrlChange = (type, url) => {
-    setFormData((prev) => ({
-      ...prev,
-      [type]: url,
-    }));
-  };
-
   if (!isOpen) return null;
 
   return (
